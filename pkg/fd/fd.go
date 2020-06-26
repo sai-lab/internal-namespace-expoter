@@ -12,10 +12,10 @@ type NumberOfFiles struct {
 	maxFd       int64
 }
 
-const fileNr = "/proc/sys/fs/file-nr"
+const fileNrPath = "/proc/sys/fs/file-nr"
 
 func OpenFileNr() (io.Reader, error) {
-	file, err := os.Open(fileNr)
+	file, err := os.Open(fileNrPath)
 	if err != nil {
 		return nil, err
 	}
@@ -32,7 +32,6 @@ func ParseNumberOfFiles(r io.Reader) (*NumberOfFiles, error) {
 	}
 
 	line := string(buf)
-	fmt.Println(line)
 
 	numberOfFiles := NumberOfFiles{}
 	fmt.Sscanf(line, "%d\t%d\t%d", &numberOfFiles.usingFd, &numberOfFiles.availableFd, &numberOfFiles.maxFd)
